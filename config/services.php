@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'igdb' => [
+        'client_id'          => env( 'IGDB_CLIENT_ID' ),
+        'client_secret'      => env( 'IGDB_CLIENT_SECRET' ),
+        // 'redirect_uri'       => '',
+        // 'authorize_endpoint' => '',
+        'token_endpoint'     => 'https://id.twitch.tv/oauth2/token',
+    ]
 ];
