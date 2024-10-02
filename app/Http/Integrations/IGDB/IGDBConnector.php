@@ -34,6 +34,13 @@ class IGDBConnector extends Connector
         return new TokenAuthenticator( $this->access_token_authenticator->getAccessToken() );
     }
 
+    protected function defaultHeaders(): array
+    {
+        return [
+            'Client-ID' => $this->defaultOauthConfig()->getClientId(),
+        ];
+    }
+
     /**
      * Generate an authenticator with OAuth config.
      * As this API does not use the Authorization Code Grant.
