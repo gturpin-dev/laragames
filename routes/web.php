@@ -1,18 +1,27 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Integrations\IGDB\Requests\GetGamesRequest;
+use App\Enums\IGDBGameField;
 use App\Http\Integrations\IGDB\IGDBConnector;
+use App\Http\Integrations\IGDB\Requests\GetGamesRequest;
+use Illuminate\Support\Facades\Route;
 
 Route::get( '/', function () {
     return view( 'welcome' );
 } );
 
 Route::get( '/test', function () {
-    $connector = new IGDBConnector();
-    $request   = new GetGamesRequest();
+    $connector = new IGDBConnector;
+    $request   = new GetGamesRequest(
+        fields: [
+            IGDBGameField::ALL
+            // IGDBGameField::NAME,
+            // IGDBGameField::SUMMARY,
+            // IGDBGameField::COVER,
+        ]
+    );
 
     dd(
+        $request,
         $connector->send( $request )->json()
     );
 

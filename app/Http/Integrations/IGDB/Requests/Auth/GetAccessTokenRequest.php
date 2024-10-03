@@ -2,13 +2,13 @@
 
 namespace App\Http\Integrations\IGDB\Requests\Auth;
 
-use Saloon\Traits\Body\HasJsonBody;
-use Saloon\Http\SoloRequest;
-use Saloon\Http\Response;
-use Saloon\Http\Auth\AccessTokenAuthenticator;
-use Saloon\Helpers\OAuth2\OAuthConfig;
-use Saloon\Enums\Method;
 use Saloon\Contracts\Body\HasBody;
+use Saloon\Enums\Method;
+use Saloon\Helpers\OAuth2\OAuthConfig;
+use Saloon\Http\Auth\AccessTokenAuthenticator;
+use Saloon\Http\Response;
+use Saloon\Http\SoloRequest;
+use Saloon\Traits\Body\HasJsonBody;
 
 class GetAccessTokenRequest extends SoloRequest implements HasBody
 {
@@ -40,7 +40,7 @@ class GetAccessTokenRequest extends SoloRequest implements HasBody
         ];
     }
 
-    public function createDtoFromResponse(Response $response): AccessTokenAuthenticator
+    public function createDtoFromResponse( Response $response ): AccessTokenAuthenticator
     {
         $data = $response->json();
 

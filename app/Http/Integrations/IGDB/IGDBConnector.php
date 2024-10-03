@@ -2,17 +2,17 @@
 
 namespace App\Http\Integrations\IGDB;
 
-use Saloon\Traits\Plugins\AcceptsJson;
-use Saloon\Http\Request;
-use Saloon\Http\Connector;
-use Saloon\Http\Auth\TokenAuthenticator;
-use Saloon\Http\Auth\AccessTokenAuthenticator;
-use Saloon\Helpers\OAuth2\OAuthConfig;
-use Saloon\Exceptions\Request\RequestException;
-use Saloon\Exceptions\Request\FatalRequestException;
-use Saloon\Contracts\Authenticator;
-use Illuminate\Support\Facades\Cache;
 use App\Http\Integrations\IGDB\Requests\Auth\GetAccessTokenRequest;
+use Illuminate\Support\Facades\Cache;
+use Saloon\Contracts\Authenticator;
+use Saloon\Exceptions\Request\FatalRequestException;
+use Saloon\Exceptions\Request\RequestException;
+use Saloon\Helpers\OAuth2\OAuthConfig;
+use Saloon\Http\Auth\AccessTokenAuthenticator;
+use Saloon\Http\Auth\TokenAuthenticator;
+use Saloon\Http\Connector;
+use Saloon\Http\Request;
+use Saloon\Traits\Plugins\AcceptsJson;
 
 class IGDBConnector extends Connector
 {
@@ -47,11 +47,15 @@ class IGDBConnector extends Connector
     /**
      * Handle out-of-date token errors and refresh it on the fly
      */
-    public function handleRetry(FatalRequestException|RequestException $exception, Request $request): bool
+    public function handleRetry( FatalRequestException|RequestException $exception, Request $request ): bool
     {
         // Handle only out-of-date token errors
-        if ( ! $exception instanceof RequestException ) return false;
-        if ( $exception->getResponse()->status() !== 401 ) return false;
+        if ( ! $exception instanceof RequestException ) {
+            return false;
+        }
+        if ( $exception->getResponse()->status() !== 401 ) {
+            return false;
+        }
 
         $this->access_token_authenticator = $this->generateAccessTokenAuthenticator( should_be_stored: true );
         $this->authenticate( $this->access_token_authenticator );
@@ -64,11 +68,10 @@ class IGDBConnector extends Connector
      * As this API does not use the Authorization Code Grant.
      *
      * @param bool $should_be_stored Whether the authenticator should be stored in the session or not.
-     *
-     * @return AccessTokenAuthenticator
      */
-    protected function generateAccessTokenAuthenticator( bool $should_be_stored = false ): AccessTokenAuthenticator {
-        $authenticator = (new GetAccessTokenRequest( $this->defaultOauthConfig() ))
+    protected function generateAccessTokenAuthenticator( bool $should_be_stored = false ): AccessTokenAuthenticator
+    {
+        $authenticator = ( new GetAccessTokenRequest( $this->defaultOauthConfig() ) )
             ->send()
             ->dtoOrFail();
 
@@ -82,10 +85,9 @@ class IGDBConnector extends Connector
     /**
      * Retrieve the access token authenticator from the session.
      * If it does not exist Or it has expired, generate a new one and store it in the session.
-     *
-     * @return AccessTokenAuthenticator
      */
-    protected function getAccessTokenAuthenticator(): AccessTokenAuthenticator {
+    protected function getAccessTokenAuthenticator(): AccessTokenAuthenticator
+    {
         $authenticator = Cache::get( 'igdb_authenticator' );
 
         if ( ! is_null( $authenticator ) ) {
