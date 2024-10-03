@@ -17,12 +17,14 @@ Route::get( '/test', function () {
             // IGDBGameField::NAME,
             // IGDBGameField::SUMMARY,
             // IGDBGameField::COVER,
-        ]
+        ],
+        search: 'Halo'
     );
+    $response = $connector->send( $request );
 
     dd(
-        $request,
-        $connector->send( $request )->json()
+        $response->json(),
+        $response->dto()
     );
 
     return 'Test';

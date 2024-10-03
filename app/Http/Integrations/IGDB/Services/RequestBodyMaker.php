@@ -22,6 +22,11 @@ final class RequestBodyMaker
     protected array $fields = [];
 
     /**
+     * The search term for the request.
+     */
+    protected string $search = '';
+
+    /**
      * Make the request body based on the params set.
      *
      * @return string The plain string body for IGDB API
@@ -34,6 +39,10 @@ final class RequestBodyMaker
             $body   .= 'fields ' . implode( ',', $fields ) . ';';
         }
 
+        if ( ! empty( $this->search ) ) {
+            $body .= 'search "' . $this->search . '";';
+        }
+
         return $body;
     }
 
@@ -44,6 +53,16 @@ final class RequestBodyMaker
      */
     public function fields( array $fields ): self {
         $this->fields = $fields;
+        return $this;
+    }
+
+    /**
+     * Set the search term for the request
+     *
+     * @param string $search The search term
+     */
+    public function search( string $search ): self {
+        $this->search = $search;
         return $this;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use ArchTech\Enums\InvokableCases;
+
 /**
  * Represents the fields that can be requested from the IGDB API for a game.
  *
@@ -9,7 +11,10 @@ namespace App\Enums;
  */
 enum IGDBGameField: string
 {
-    case ALL                     = '*'; // Should only be used alone and for debug purposes
+    use InvokableCases;
+
+    case ALL                     = '*';                        // Should only be used alone and for debug purposes
+    case ID                      = 'id';
     case AGE_RATINGS             = 'age_ratings';              // The PEGI rating
     case AGGREGATED_RATING       = 'aggregated_rating';        // Rating based on external critic scores
     case AGGREGATED_RATING_COUNT = 'aggregated_rating_count';  // Number of external critic scores
