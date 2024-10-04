@@ -31,12 +31,13 @@ final class RequestBodyMaker
      *
      * @return string The plain string body for IGDB API
      */
-    public function make(): string {
+    public function make(): string
+    {
         $body = '';
 
         if ( ! empty( $this->fields ) ) {
-            $fields  = array_map( fn( IGDBGameField $field ) => $field->value, $this->fields );
-            $body   .= 'fields ' . implode( ',', $fields ) . ';';
+            $fields = array_map( fn ( IGDBGameField $field ) => $field->value, $this->fields );
+            $body .= 'fields ' . implode( ',', $fields ) . ';';
         }
 
         if ( ! empty( $this->search ) ) {
@@ -51,8 +52,10 @@ final class RequestBodyMaker
      *
      * @param array<IGDBGameField> $fields
      */
-    public function fields( array $fields ): self {
+    public function fields( array $fields ): self
+    {
         $this->fields = $fields;
+
         return $this;
     }
 
@@ -61,8 +64,10 @@ final class RequestBodyMaker
      *
      * @param string $search The search term
      */
-    public function search( string $search ): self {
+    public function search( string $search ): self
+    {
         $this->search = $search;
+
         return $this;
     }
 }

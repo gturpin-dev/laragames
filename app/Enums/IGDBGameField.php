@@ -12,7 +12,6 @@ use ArchTech\Enums\InvokableCases;
 enum IGDBGameField: string
 {
     use InvokableCases;
-
     case ALL                        = '*';                          // Should only be used alone and for debug purposes
     case ID                         = 'id';
     case AGE_RATINGS                = 'age_ratings';                // The PEGI rating

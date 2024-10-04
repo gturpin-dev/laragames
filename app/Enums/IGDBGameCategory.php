@@ -13,52 +13,53 @@ enum IGDBGameCategory: int
 {
     use Metadata;
 
-    #[Label('Main Game')]
+    #[Label( 'Main Game' )]
     case MAIN_GAME = 0;
 
-    #[Label('DLC/Addon')]
+    #[Label( 'DLC/Addon' )]
     case DLC_ADDON = 1;
 
-    #[Label('Expansion')]
+    #[Label( 'Expansion' )]
     case EXPANSION = 2;
 
-    #[Label('Bundle')]
+    #[Label( 'Bundle' )]
     case BUNDLE = 3;
 
-    #[Label('Standalone Expansion')]
+    #[Label( 'Standalone Expansion' )]
     case STANDALONE_EXPANSION = 4;
 
-    #[Label('Mod')]
+    #[Label( 'Mod' )]
     case MOD = 5;
 
-    #[Label('Episode')]
+    #[Label( 'Episode' )]
     case EPISODE = 6;
 
-    #[Label('Season')]
+    #[Label( 'Season' )]
     case SEASON = 7;
 
-    #[Label('Remake')]
+    #[Label( 'Remake' )]
     case REMAKE = 8;
 
-    #[Label('Remaster')]
+    #[Label( 'Remaster' )]
     case REMASTER = 9;
 
-    #[Label('Expanded Game')]
+    #[Label( 'Expanded Game' )]
     case EXPANDED_GAME = 10;
 
-    #[Label('Port')]
+    #[Label( 'Port' )]
     case PORT = 11;
 
-    #[Label('Fork')]
+    #[Label( 'Fork' )]
     case FORK = 12;
 
-    #[Label('Pack')]
+    #[Label( 'Pack' )]
     case PACK = 13;
 
-    #[Label('Update')]
+    #[Label( 'Update' )]
     case UPDATE = 14;
 
-    public static function default(): self {
+    public static function default(): self
+    {
         return self::MAIN_GAME;
     }
 }

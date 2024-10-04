@@ -3,18 +3,17 @@
 namespace App\Data;
 
 use App\Collections\GameDataCollection;
-use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Attributes\WithCast;
-use Spatie\LaravelData\Attributes\MapInputName;
-use Spatie\LaravelData\Attributes\Computed;
-use Carbon\CarbonImmutable;
-use App\Enums\IGDBPegiRating;
-use App\Enums\IGDBGameCategory;
-use App\Data\Casts\TimestampToCarbonImmutableCast;
-use App\Data\Casts\IGDBPegiRatingCast;
-use App\Data\Casts\IGDBImageUrlCleanCast;
 use App\Data\Casts\IGDBAlternativeNamesRawToListCast;
+use App\Data\Casts\IGDBImageUrlCleanCast;
+use App\Data\Casts\IGDBPegiRatingCast;
+use App\Data\Casts\TimestampToCarbonImmutableCast;
+use App\Enums\IGDBGameCategory;
 use App\Enums\IGDBGameField;
+use App\Enums\IGDBPegiRating;
+use Carbon\CarbonImmutable;
+use Spatie\LaravelData\Attributes\MapInputName;
+use Spatie\LaravelData\Attributes\WithCast;
+use Spatie\LaravelData\Data;
 
 /**
  * @method static GameDataCollection collect(array $items)
@@ -22,10 +21,10 @@ use App\Enums\IGDBGameField;
 class GameData extends Data
 {
     public function __construct(
-        #[MapInputName(IGDBGameField::ID->value)]
+        #[MapInputName( IGDBGameField::ID->value )]
         public readonly int $igdb_id,
 
-        #[MapInputName(IGDBGameField::CHECKSUM->value)]
+        #[MapInputName( IGDBGameField::CHECKSUM->value )]
         public readonly string $uuid,
 
         public readonly string $name,
@@ -35,14 +34,14 @@ class GameData extends Data
          *
          * @var array<string>
          */
-        #[WithCast(IGDBAlternativeNamesRawToListCast::class)]
+        #[WithCast( IGDBAlternativeNamesRawToListCast::class )]
         public readonly ?array $alternative_names,
 
         /**
          * The main cover url of the game.
          */
-        #[MapInputName(IGDBGameField::COVER__URL->value)]
-        #[WithCast(IGDBImageUrlCleanCast::class)]
+        #[MapInputName( IGDBGameField::COVER__URL->value )]
+        #[WithCast( IGDBImageUrlCleanCast::class )]
         public readonly ?string $cover = null,
 
         /**
@@ -69,17 +68,17 @@ class GameData extends Data
          *
          * @var array<int>
          */
-        #[MapInputName('age_ratings')]
-        #[WithCast(IGDBPegiRatingCast::class)]
+        #[MapInputName( 'age_ratings' )]
+        #[WithCast( IGDBPegiRatingCast::class )]
         public readonly ?IGDBPegiRating $pegi_rating = null,
 
-        #[MapInputName('total_rating')]
+        #[MapInputName( 'total_rating' )]
         public readonly ?float $rating = null,
 
-        #[MapInputName('total_rating_count')]
+        #[MapInputName( 'total_rating_count' )]
         public readonly ?int $rating_count = null,
 
-        #[WithCast(TimestampToCarbonImmutableCast::class)]
+        #[WithCast( TimestampToCarbonImmutableCast::class )]
         public readonly ?CarbonImmutable $updated_at = null
 
         // @TODO things to maybe add :
@@ -122,12 +121,11 @@ class GameData extends Data
         // videos
         // websites
 
-
         // @TODO split the DTOs for DLCs, Main Game etc
     ) {}
 
-
-    public static function collectArray( array $items ): GameDataCollection {
+    public static function collectArray( array $items ): GameDataCollection
+    {
         return new GameDataCollection( $items );
     }
 }
