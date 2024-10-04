@@ -13,10 +13,21 @@ Route::get( '/test', function () {
     $connector = new IGDBConnector;
     $request   = new GetGamesRequest(
         fields: [
-            IGDBGameField::ALL
-            // IGDBGameField::NAME,
-            // IGDBGameField::SUMMARY,
-            // IGDBGameField::COVER,
+            // IGDBGameField::ALL,
+            IGDBGameField::ID,
+            IGDBGameField::CHECKSUM,
+            IGDBGameField::NAME,
+            IGDBGameField::ALTERNATIVE_NAMES__NAME,
+            IGDBGameField::ALTERNATIVE_NAMES__COMMENT,
+            IGDBGameField::COVER__URL,
+            IGDBGameField::CATEGORY,
+            IGDBGameField::BUNDLES,
+            IGDBGameField::ARTWORKS,
+            IGDBGameField::AGE_RATINGS__CATEGORY,
+            IGDBGameField::AGE_RATINGS__RATING,
+            IGDBGameField::TOTAL_RATING,
+            IGDBGameField::TOTAL_RATING_COUNT,
+            IGDBGameField::UPDATED_AT,
         ],
         search: 'Halo'
     );

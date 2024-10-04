@@ -2,50 +2,83 @@
 
 namespace App\Data;
 
-use App\Enums\IGDBGameCategory;
-use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Attributes\WithCast;
+use Spatie\LaravelData\Attributes\MapInputName;
+use Spatie\LaravelData\Attributes\Computed;
+use Carbon\CarbonImmutable;
+use App\Enums\IGDBPegiRating;
+use App\Enums\IGDBGameCategory;
+use App\Data\Casts\TimestampToCarbonImmutableCast;
+use App\Data\Casts\IGDBPegiRatingCast;
+use App\Data\Casts\IGDBImageUrlCleanCast;
+use App\Data\Casts\IGDBAlternativeNamesRawToListCast;
+use App\Enums\IGDBGameField;
 
 class GameData extends Data
 {
     public function __construct(
-        #[MapInputName('id')]
+        #[MapInputName(IGDBGameField::ID->value)]
         public readonly int $igdb_id,
+
+        #[MapInputName(IGDBGameField::CHECKSUM->value)]
+        public readonly string $uuid,
+
         public readonly string $name,
 
-        // public readonly array<int> $alternative_names, // @TODO maybe implements => need to call /alternative_names route and get the "name" of item ( maybe get only the items where comment = "Other" )
+        /**
+         * The alternatives names of the game.
+         *
+         * @var array<string>
+         */
+        #[WithCast(IGDBAlternativeNamesRawToListCast::class)]
+        public readonly ?array $alternative_names,
 
         /**
-         * Artworks of the game.
-         *
-         * @var array<int>
+         * The main cover url of the game.
          */
-        public readonly array $artworks = [], // @TODO maybe implements => need to call /artworks route and get the "url" of item ( maybe try to download images and save in storage | the url is protected by the same authentication as other API requests )
-
-        /**
-         * The other games in the same series or collection.
-         *
-         * @var array<int>
-         */
-        public readonly array $bundles = [],
-
-        /**
-         * The PEGIs rating.
-         *
-         * @var array<int>
-         */
-        public readonly array $pegi_ratings = [], // @TODO maybe implements => need to call /age_ratings route and get the "rating" of item
-
-        public readonly float $external_rating = 0.0,
-        public readonly int $external_rating_count = 0,
+        #[MapInputName(IGDBGameField::COVER__URL->value)]
+        #[WithCast(IGDBImageUrlCleanCast::class)]
+        public readonly ?string $cover = null,
 
         /**
          * The game type, main game, dlc or other categories.
          */
         public readonly IGDBGameCategory $category = IGDBGameCategory::MAIN_GAME,
 
+        /**
+         * The other games in the same series or collection.
+         *
+         * @var array<int> other games ids
+         */
+        public readonly ?array $bundles = [],
+
+        /**
+         * Artworks of the game.
+         *
+         * @var array<int>
+         */
+        public readonly ?array $artworks = [], // @TODO maybe implements => need to call /artworks route and get the "url" of item ( maybe try to download images and save in storage | the url is protected by the same authentication as other API requests )
+
+        /**
+         * The PEGIs rating.
+         *
+         * @var array<int>
+         */
+        #[MapInputName('age_ratings')]
+        #[WithCast(IGDBPegiRatingCast::class)]
+        public readonly ?IGDBPegiRating $pegi_rating = null,
+
+        #[MapInputName('total_rating')]
+        public readonly ?float $rating = null,
+
+        #[MapInputName('total_rating_count')]
+        public readonly ?int $rating_count = null,
+
+        #[WithCast(TimestampToCarbonImmutableCast::class)]
+        public readonly ?CarbonImmutable $updated_at = null
+
         // @TODO things to maybe add :
-        // uuid
         // collection
         // collections ( check what's those )
         // cover
@@ -67,8 +100,6 @@ class GameData extends Data
         // platforms
         // player_perspectives ?
         // ports ?
-        // rating
-        // rating_count
         // release_dates
         // remakes
         // remasters
@@ -81,9 +112,6 @@ class GameData extends Data
         // summary
         // tags
         // themes
-        // total_rating
-        // total_rating_count ( replace the current external_rating_count )
-        // updated_at
         // url
         // version_parent ?
         // version_title ?

@@ -22,7 +22,7 @@ class GetGamesRequest extends Request implements HasBody
     protected Method $method = Method::POST;
 
     /**
-     * @param array<IGDBGameField> $fields
+     * @param array<IGDBGameField> $fields The fields to be returned from the request
      */
     public function __construct(
         protected readonly array $fields  = [],
