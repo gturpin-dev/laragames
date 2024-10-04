@@ -2,15 +2,16 @@
 
 namespace App\Http\Integrations\IGDB\Requests;
 
-use App\Data\GameData;
-use App\Enums\IGDBGameField;
-use App\Http\Integrations\IGDB\Services\RequestBodyMaker;
-use Saloon\Contracts\Body\BodyRepository;
-use Saloon\Contracts\Body\HasBody;
-use Saloon\Enums\Method;
-use Saloon\Http\Request;
-use Saloon\Http\Response;
 use Saloon\Traits\Body\HasStringBody;
+use Saloon\Http\Response;
+use Saloon\Http\Request;
+use Saloon\Enums\Method;
+use Saloon\Contracts\Body\HasBody;
+use Saloon\Contracts\Body\BodyRepository;
+use App\Http\Integrations\IGDB\Services\RequestBodyMaker;
+use App\Enums\IGDBGameField;
+use App\Data\GameData;
+use App\Collections\GameDataCollection;
 
 class GetGamesRequest extends Request implements HasBody
 {
@@ -46,13 +47,8 @@ class GetGamesRequest extends Request implements HasBody
         return $request_body_maker->make();
     }
 
-    /**
-     * @return array<GameData>
-     */
-    public function createDtoFromResponse(Response $response): array
+    public function createDtoFromResponse(Response $response): GameDataCollection
     {
-        return collect( $response->json() )
-            ->map( fn( array $game ) => GameData::from( $game ) )
-            ->all();
+        return GameData::collect( $response->json() );
     }
 }

@@ -34,7 +34,6 @@ Route::get( '/test', function () {
     $response = $connector->send( $request );
 
     dd(
-        $response->json(),
         $response->dto()
     );
 

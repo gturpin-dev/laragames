@@ -2,6 +2,7 @@
 
 namespace App\Data;
 
+use App\Collections\GameDataCollection;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Attributes\MapInputName;
@@ -15,6 +16,9 @@ use App\Data\Casts\IGDBImageUrlCleanCast;
 use App\Data\Casts\IGDBAlternativeNamesRawToListCast;
 use App\Enums\IGDBGameField;
 
+/**
+ * @method static GameDataCollection collect(array $items)
+ */
 class GameData extends Data
 {
     public function __construct(
@@ -121,4 +125,9 @@ class GameData extends Data
 
         // @TODO split the DTOs for DLCs, Main Game etc
     ) {}
+
+
+    public static function collectArray( array $items ): GameDataCollection {
+        return new GameDataCollection( $items );
+    }
 }
