@@ -8,6 +8,6 @@ use App\Data\GameData;
 use Illuminate\Support\Collection;
 
 /**
- * @extends Collection<GameData>
+ * @extends Collection<array-key, GameData>
  */
 class GameDataCollection extends Collection {}

@@ -18,10 +18,12 @@ class IGDBConnector extends Connector
 {
     use AcceptsJson;
 
+    protected AccessTokenAuthenticator $access_token_authenticator;
+
     public function __construct(
-        protected ?AccessTokenAuthenticator $access_token_authenticator = null
+        ?AccessTokenAuthenticator $access_token_authenticator = null
     ) {
-        $this->access_token_authenticator ??= $this->getAccessTokenAuthenticator();
+        $this->access_token_authenticator = $access_token_authenticator ?? $this->getAccessTokenAuthenticator();
     }
 
     /**
@@ -76,7 +78,7 @@ class IGDBConnector extends Connector
             ->dtoOrFail();
 
         if ( $should_be_stored ) {
-            Cache::put( 'igdb_authenticator', $authenticator->serialize(), ttl: $authenticator->getExpiresAt() );
+            Cache::put( 'igdb_authenticator', $authenticator->serialize(), ttl: $authenticator->getExpiresAt() ); // @phpstan-ignore argument.type ( Because he can't predict the $authenticator type from the Request concrete class )
         }
 
         return $authenticator;

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Data\Casts;
 
-use Spatie\LaravelData\Casts\Cast;
 use Spatie\LaravelData\Support\DataProperty;
 use Spatie\LaravelData\Support\Creation\CreationContext;
+use Spatie\LaravelData\Contracts\BaseData;
+use Spatie\LaravelData\Casts\Cast;
 
 /**
  * Cast a raw array of IGDB alternative names to a list of names.
@@ -21,6 +22,13 @@ class IGDBAlternativeNamesRawToListCast implements Cast
         'Acronym',
     ];
 
+    /**
+     * @template TData of BaseData
+     *
+     * @param array<array{name: string, comment?: string}> $value The Represensation Value of IGDB API
+     * @param array<mixed> $properties
+     * @param CreationContext<TData> $context
+     */
     public function cast(DataProperty $property, mixed $value, array $properties, CreationContext $context): mixed
     {
         if ( ! is_array( $value ) ) {
@@ -28,8 +36,8 @@ class IGDBAlternativeNamesRawToListCast implements Cast
         }
 
         return collect( $value )
-            ->filter( fn ( array $alternative_names ) => ! isset( $alternative_names['comment'] ) || in_array( $alternative_names['comment'] ?? '', self::TYPE_WHITELIST ) )
-            ->map( fn ( array $alternative_names ) => $alternative_names['name'] ?? null )
+            ->filter( fn ( array $alternative_names ) => ! isset( $alternative_names['comment'] ) || in_array( $alternative_names['comment'], self::TYPE_WHITELIST ) )
+            ->map( fn ( array $alternative_names ) => $alternative_names['name'] )
             ->filter()
             ->unique()
             ->values()

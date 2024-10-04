@@ -65,8 +65,6 @@ class GameData extends Data
 
         /**
          * The PEGIs rating.
-         *
-         * @var array<int>
          */
         #[MapInputName( 'age_ratings' )]
         #[WithCast( IGDBPegiRatingCast::class )]
@@ -124,6 +122,9 @@ class GameData extends Data
         // @TODO split the DTOs for DLCs, Main Game etc
     ) {}
 
+    /**
+     * @param array<mixed> $items
+     */
     public static function collectArray( array $items ): GameDataCollection
     {
         return new GameDataCollection( $items );

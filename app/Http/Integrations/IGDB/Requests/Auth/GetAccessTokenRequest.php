@@ -31,6 +31,9 @@ class GetAccessTokenRequest extends SoloRequest implements HasBody
         return $this->oauth_config->getTokenEndpoint();
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function defaultBody(): array
     {
         return [
